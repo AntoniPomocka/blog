@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Dodaj nowy wpis</h2>
+<a href="{{ url_for('create_entry') }}" class="btn btn-success mb-3">
+    <i class="fas fa-feather-alt"></i>
+</a>
+
+<h2>Opublikowane wpisy</h2>
+{% for post in all_posts %}
+<div class="post-entry" style="position: relative;">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.pub_date.strftime('%Y-%m-%d') }}</p>
+    <p>{{ post.body }}</p>
+    <a href="{{ url_for('edit_entry', entry_id=post.id) }}" class="edit-link" style="position: absolute; top: 0; right: 0; text-decoration: none;">
+        <i class="fas fa-edit text-success"></i>
+    </a>
+</div>
+{% endfor %}
+{% endblock %}

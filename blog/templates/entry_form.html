@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{% if form.id.data %}Edytuj wpis{% else %}Nowy wpis{% endif %}</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.title.label }}<br>
+      {{ form.title(size=32, class_='form-control') }}
+    </div>
+    <div class="form-group">
+      {{ form.body.label }}<br>
+      {{ form.body(rows=10, class_='form-control') }}
+    </div>
+    <div class="form-check">
+      {{ form.is_published.class_='form-check-input' }}
+      {{ form.is_published.label }}
+    </div>
+    <button type="submit" class="btn btn-primary">
+      {% if form.id.data %}Zaktualizuj{% else %}Dodaj{% endif %}
+    </button>
+  </form>
+{% endblock %}
