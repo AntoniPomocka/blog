@@ -6,15 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <title>Mój pierwszy blog</title>
-
   <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/starter-template/">
-
-  <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
   <style>
     body {
       padding-top: 5rem;
@@ -24,38 +18,53 @@
 
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Mój blog</a>
+    <a class="navbar-brand" href="{{ url_for('index') }}">Mój blog</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
+        {% if session.logged_in %}
+        <li class="nav-item">
+          <a href="{{ url_for('create_entry') }}" class="nav-link">Nowy wpis</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('list_drafts') }}" class="nav-link">Szkice</a>
+        </li>
+        {% endif %}
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" placeholder="Szukaj" aria-label="Szukaj">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Szukaj</button>
       </form>
+      <ul class="navbar-nav">
+        {% if session.logged_in %}
+        <li class="nav-item">
+          <form method="POST" action="{{ url_for('logout') }}">
+            <button type="submit" class="btn btn-danger my-2 my-sm-0">Wyloguj</button>
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="{{ url_for('login') }}" class="btn btn-success my-2 my-sm-0">Zaloguj</a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
   </nav>
-
   <main role="main" class="container">
-
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
-          <div class="alert alert-{{ category }} mt-2">
-            {{ message }}
-          </div>
+        <div class="alert alert-{{ category }} mt-2">
+          {{ message }}
+        </div>
         {% endfor %}
       {% endif %}
     {% endwith %}
-    
     {% block content %}
     {% endblock %}
-
   </main>
-
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
