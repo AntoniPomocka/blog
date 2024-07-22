@@ -48,7 +48,11 @@ def manage_entry(entry_id=None):
 
 @app.route('/')
 def index():
-    all_posts = Entry.query.filter_by(is_published=True).order_by(Entry.pub_date.desc())
+    query = request.args.get('q')
+    if query:
+        all_posts = Entry.query.filter(Entry.title.contains(query), Entry.is_published==True).order_by(Entry.pub_date.desc()).all()
+    else:
+        all_posts = Entry.query.filter_by(is_published=True).order_by(Entry.pub_date.desc()).all()
     return render_template("homepage.html", all_posts=all_posts)
 
 @app.route('/new-post', methods=['GET', 'POST'])

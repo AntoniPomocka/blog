@@ -33,8 +33,8 @@
         </li>
         {% endif %}
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Szukaj" aria-label="Szukaj">
+      <form class="form-inline my-2 my-lg-0" action="{{ url_for('index') }}" method="GET">
+        <input class="form-control mr-sm-2" type="text" placeholder="Szukaj" aria-label="Szukaj" name="q">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Szukaj</button>
       </form>
       <ul class="navbar-nav">
